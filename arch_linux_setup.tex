@@ -1,0 +1,154 @@
+%------------------------------------------------------------------------------
+% WI-FI & notebook
+%------------------------------------------------------------------------------
+iwctl
+device list
+adapter <name> set-property Powered on
+device wlan0 set-property Powered on
+station wlan0 scan
+station wlan0 get-networks
+station wlan0 connect _Nt24
+
+lspci -k
+rfkill
+rfkill unblock wlan
+sudo pacman -Syu broadcom-wl
+
+nmcli device wifi list
+nmcli device wifi connect <SSID> password <password>
+
+%------------------------------------------------------------------------------
+% DISK 
+%------------------------------------------------------------------------------
+fdisk -l
+
+mkfs.fat -F 32 /dev/sda1
+mkswap /dev/sda2
+mkfs.ext4 /dev/sda3
+
+mount --mkdir /dev/sda1 /mnt/boot
+swapon /dev/sda2
+mount /dev/sda3 /mnt
+
+%------------------------------------------------------------------------------
+% INSTALL
+%------------------------------------------------------------------------------
+pacstrap -K /mnt base base-devel linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+
+% - SYSTEM PRECONFIGURATION ---------------------------------------------------
+
+arch-chroot /mnt
+
+% - SETUP
+pacman -S 
+    grub
+    efibootmgr
+    dhcpcd
+    networkmanager
+    neovim
+    git
+    broadcom-wl % notebook wi-fi driver
+
+% - TIME ZONE -----------------------------------------------------------------
+
+ln -sf /usr/share/zoneinfo/[Region]/[City] /etc/localtime
+hwclock --systohc
+date
+
+% - LOCALIZATION --------------------------------------------------------------
+
+/etc/locale.gen uncomment en_US.UTR-8 and others
+locale-gen
+
+/etc/locale.conf
+LANG=en_US.UTF-8
+/etc/vconsole.conf
+KEYMAP=ru
+
+% - NETWORK CONFIGURATION -----------------------------------------------------
+
+nvim /etc/hostame - add <hostname>
+/etc/hosts
+127.0.0.1 localhost
+::1       localhost
+127.0.1.1 <hostname>
+
+% - ROOT PASSWORD -------------------------------------------------------------
+
+passwd for ROOT
+
+% - BOOTLOADER ----------------------------------------------------------------
+
+grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot --removable
+grub-mkconfig -o /boot/grub/grub.cfg
+
+exit
+unmount -R /mnt
+reboot
+
+%------------------------------------------------------------------------------
+% POSTINSTALL 
+%------------------------------------------------------------------------------
+systemctl start NetworkManager
+systemctl enable NetworkManager
+
+pacman -Syu
+pacman -S sudo
+
+useradd -m -g users -G wheel,storage,power,video,audio,input <user_name>
+passwd <user_name>
+EDITOR=nvim visudo
+%wheel ALL=(ALL) NOPASSWD: ALL
+su <user_name>
+
+
+%------------------------------------------------------------------------------
+% Install AUR 
+%------------------------------------------------------------------------------
+cd ~ && mkdir aur 
+cd aur
+git clone https://aur.archlinux.org/yay.git 
+cd yay
+makepkg -si
+
+%------------------------------------------------------------------------------
+% Sound 
+%------------------------------------------------------------------------------
+sudo pacman -S alsa-utils alsa-plugins
+sudo pacman -S pipewire pipewire-alsa pipewire-pulse wireplumber
+
+%------------------------------------------------------------------------------
+% Network 
+%------------------------------------------------------------------------------
+
+sudo pacman -S openssh
+sudo systemctl enable sshd
+sudo systemctl enable dhcpcd
+
+
+%------------------------------------------------------------------------------
+% Pacman 
+%------------------------------------------------------------------------------
+
+sudo nvim /etc/pacman.conf
+
+%------------------------------------------------------------------------------
+% Time Synchronization 
+%------------------------------------------------------------------------------
+
+sudo pacman -S ntp
+sudo systemctl enable ntpd
+timedatectl set-ntp true
+
+%------------------------------------------------------------------------------
+% Shell 
+%------------------------------------------------------------------------------
+
+sudo pacman -S zsh
+chsh -s $(which zsh)
+
+%------------------------------------------------------------------------------
+% CLI utilities 
+%------------------------------------------------------------------------------
+$ sudo pacman -S tldr fzf wget curl tar unzip gzip htop neofetch
