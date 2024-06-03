@@ -1,0 +1,2 @@
+# Создание новой пары ключей
+ssh-keygen -o -t rsa -C "e@mail.here"
