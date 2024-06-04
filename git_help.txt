@@ -33,7 +33,9 @@
     git config --global format.pretty "%h %ad | %s%d [%an]"
     git config --global log.data short
 
-#switch [opt] <branch> - Переключение между ветками.
+#switch [opt] <branch> - Переключение и создание веток.
+#rm [opt | --cached] <filename> - Удаляет файл из репозитория, но 
+    не удаляет сам файл.
 
 #------------------------------------------------------------------------------
 # Создание Тегов
