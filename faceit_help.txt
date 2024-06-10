@@ -1,0 +1,3 @@
+bcdedit /set hypervisorlaunchtype off
+msinfo32 - some info.
+
