@@ -1,0 +1,5 @@
+omzsh/Узнать текущую тему можно командой
+omz theme list
+Themes
+    daveverwer
+    sorin
