@@ -1,6 +1,9 @@
 #------------------------------------------------------------------------------
 # Общее
 #------------------------------------------------------------------------------
+nvim --startuptime <file.log> - Записывает процесс загрузки вместе со временем
+    в файл (в режиме append).
+
 :cd change directory nvim command
 % - full path to file
 %:h - full pah to current file without filenames itself
