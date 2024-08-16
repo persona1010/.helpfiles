@@ -1,0 +1,103 @@
+https://wiki.archlinux.org/title/Easy-RSA
+#------------------------------------------------------------------------------
+# OpenVpn server files
+#------------------------------------------------------------------------------
+OpenVpn Server:
+  (1) ca.crt         - CA public certificate. 
+  (2) servername.crt - Server sertificate.
+      servername.key - Private server key.
+  (3) ta.key         - Hash-based Message Authentication Code (HMAC) key.
+  (4) dh.pem         - Diffie-Hellman (DH) parameters file.
+
+#------------------------------------------------------------------------------
+# (1) PKI Инициализация
+#------------------------------------------------------------------------------
+
+  Переменные окружения:
+#> export EASYRSA=/etc/easy-rsa
+#> export EASYRSA_VARS_FILE=/etc/easy-rsa/vars
+
+#> easyrsa init-pki [opt] - Инициализирует PKI в текущей директории.
+    opt: hard - (default) Полностью удаляет старую директорию PKI.
+         soft - Оставляет файл 'vars' не тронутым.
+
+#> easyrsa build-ca - Генерирует сертификат CA(certificate authority - центр
+                     сертификации).
+
+#------------------------------------------------------------------------------
+# PKI Подпись ключей. 
+#------------------------------------------------------------------------------
+#> cp /etc/easy-rsa/pki/reqs/*.req /tmp
+#> chown username /tmp/*.req
+
+#> easyrsa import-req /tmp/servername.req servername
+#> easyrsa import-req /tmp/clientname.req clientname
+#> easyrsa sign-req server servername
+#> easyrsa sign-req client clientname
+
+    Будут созданы два подписанных сертификата которые тужно вернуть на сервер и 
+клиенту соответственно:
+    * /etc/easy-rsa/pki/issued/servername.crt
+    * /etc/easy-rsa/pki/issued/clientname.crt
+
+    После передачи сертификатов нужно изменить их владельца и группу:
+#> chown openvpn:network /etc/openvpn/server/servername.crt
+#> chown openvpn:network /etc/openvpn/client/clientname.crt
+
+Оставшиеся *.req файлы можно удалить.
+
+#------------------------------------------------------------------------------
+# (2) Server sertificate and private key 
+#------------------------------------------------------------------------------
+#> easyrsa gen-req servername nopass - Генерирует пару ключей.
+    * /etc/easy-rsa/pki/reqs/servername.req
+    * /etc/easy-rsa/pki/private/servername.key
+
+#------------------------------------------------------------------------------
+# (3) Hash-based Message Authentication Code (HMAC) key 
+#------------------------------------------------------------------------------
+#> openvpn --genkey secret /etc/openvpn/server/ta.key
+#> chown openvpn:network /etc/openvpn/server/ta.key
+
+    If elliptic curve is used, the HMAC key is generated with the following 
+command:
+#> openvpn --henkey tls-auth /etc/openvpn/server/ta.key
+#> chown openvpn:network /etc/openvpn/server/ta.key
+
+#------------------------------------------------------------------------------
+# (4) Diffie-Hellman (DH) parameters file 
+#------------------------------------------------------------------------------
+    Этот шаг не нужен если испольюзуется TLS с elliptic curves.
+#> openssl dhparam -out /etc/openvpn/server/dh.pem 2048
+
+#------------------------------------------------------------------------------
+# OpenVpn client files
+#------------------------------------------------------------------------------
+OpenVpn Client:
+  (1) ca.crt         - CA public certificate. 
+  (5) servername.crt - Server sertificate.
+      servername.key - Private server key.
+
+#------------------------------------------------------------------------------
+# (5) Client sertificate and private key 
+#------------------------------------------------------------------------------
+#> easyrsa gen-req clientname nopass - Генерирует пару ключей для клиента. Для
+                                       каждого клиента нужно генеририровать 
+                                       свою пару ключей.
+    * /etc/easy-rsa/pki/reqs/clientname.req
+    * /etc/easy-rsa/pki/private/clientname.key
+
+
+#------------------------------------------------------------------------------
+# SCP <from> <to>
+#------------------------------------------------------------------------------
+Для передачи по SCP нужно менять владельца файла:
+#> chown username filename
+#> scp /tmp/*.crt usrname@10.10.0.3:/tmp
+#> scp /tmp/ca.crt usrname@10.10.0.3:/tmp/ca.crt
+
+#------------------------------------------------------------------------------
+# Ошибка OpenVPN: Cannot open TUN/TAP de/dev/net/tun 
+#------------------------------------------------------------------------------
+$> lsmod | grep tun
+#> modprobe tun
