@@ -1,0 +1,2 @@
+sudo intel_gpu_top
+nvtop
