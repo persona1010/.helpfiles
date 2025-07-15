@@ -1,13 +1,13 @@
 
 🔁 Creational Patterns
- * Singleton
+ * [Singleton](#Singleton)
  * Factory Method
  * Abstract Factory
  * Builder
  * Prototype
 
 🔄 Structural Patterns
- * Adapter
+ * [Adapter](#Adapter)
  * Bridge
  * Composite
  * Decorator
@@ -27,13 +27,13 @@
  * Chain of Responsibility
  * Template Method
 
-  🧱 1. Adapter Pattern
+<a id="Adapter">  🧱 1. Adapter Pattern</a>
   Allows incompatible interfaces to work together.
 
-<pre> ```cpp#include <iostream>
+```cpp#include <iostream>
 using namespace std;
 
-// Adaptee
+// Adapter
 class OldPrinter {
 public:
     void oldPrint(const string& text) {
@@ -65,7 +65,7 @@ int main() {
     delete adapter;
     delete old;
     return 0;
-} ```</pre>
+} ```
 
 🌉 2. Bridge Pattern
 
