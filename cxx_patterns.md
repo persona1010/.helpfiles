@@ -2,10 +2,10 @@
 1. 🔁 [Creational Patterns](#creational-patterns)
 
     - [Singleton](#singleton)
-    - Factory Method
-    - Abstract Factory
-    - Builder
-    - Prototype
+    - [Factory Method](#factory-method)
+    - [Abstract Factory](#abstract-factory)
+    - [Builder](#builder)
+    - [Prototype](#prototype)
 
 2. 🔄 [Structural Patterns](#structural-patterns)
 
@@ -31,9 +31,218 @@
     * Template Method
 
 ---
-## <a id="creational-patterns">Creational Patterns</a>
+## <a id="creational-patterns">🏗️ Creational Design Patterns in C++</a>
+
+Creational patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation.
+
+---
+
+### <a id="singleton">1. 🧍 Singleton Pattern</a>
+
+**Purpose**: Ensure a class has only one instance and provide a global point of access to it.
+
+#### ✅ Use Case:
+- Logging
+- Configuration settings
+- Caches
+
+#### 💡 Code Example:
+```cpp
+class Singleton {
+private:
+    static Singleton* instance;
+    Singleton() {} // Private constructor
+
+public:
+    static Singleton* getInstance() {
+        if (!instance)
+            instance = new Singleton();
+        return instance;
+    }
+
+    void showMessage() {
+        std::cout << "Hello from Singleton!" << std::endl;
+    }
+};
+
+Singleton* Singleton::instance = nullptr;
+```
+
+---
+
+### <a id="factory-method">2. 🏭 Factory Method Pattern</a>
+
+**Purpose**: Define an interface for creating an object, but let subclasses decide which class to instantiate.
+
+#### ✅ Use Case:
+- When the client code needs to work with interfaces and not concrete classes.
+
+#### 💡 Code Example:
+```cpp
+class Product {
+public:
+    virtual void use() = 0;
+};
+
+class ConcreteProductA : public Product {
+public:
+    void use() override {
+        std::cout << "Using Product A" << std::endl;
+    }
+};
+
+class Creator {
+public:
+    virtual Product* createProduct() = 0;
+};
+
+class ConcreteCreatorA : public Creator {
+public:
+    Product* createProduct() override {
+        return new ConcreteProductA();
+    }
+};
+```
+
+---
+
+### <a id="abstract-factory">3. 🏢 Abstract Factory Pattern</a>
+
+**Purpose**: Provide an interface for creating families of related or dependent objects without specifying their concrete classes.
+
+#### ✅ Use Case:
+- UI toolkit that supports multiple themes (e.g., Light, Dark)
+
+#### 💡 Code Example:
+```cpp
+class Button {
+public:
+    virtual void render() = 0;
+};
+
+class WinButton : public Button {
+public:
+    void render() override {
+        std::cout << "Render Windows Button" << std::endl;
+    }
+};
+
+class MacButton : public Button {
+public:
+    void render() override {
+        std::cout << "Render Mac Button" << std::endl;
+    }
+};
+
+class GUIFactory {
+public:
+    virtual Button* createButton() = 0;
+};
+
+class WinFactory : public GUIFactory {
+public:
+    Button* createButton() override {
+        return new WinButton();
+    }
+};
+
+class MacFactory : public GUIFactory {
+public:
+    Button* createButton() override {
+        return new MacButton();
+    }
+};
+```
+
+---
+
+### <a id="builder">4. 🧱 Builder Pattern</a>
+
+**Purpose**: Separate the construction of a complex object from its representation.
+
+#### ✅ Use Case:
+- When creating objects with many optional fields or steps.
+
+#### 💡 Code Example:
+```cpp
+class Product {
+public:
+    void setPartA(std::string part) { partA = part; }
+    void setPartB(std::string part) { partB = part; }
+    void show() {
+        std::cout << "Product with " << partA << " and " << partB << std::endl;
+    }
+private:
+    std::string partA, partB;
+};
+
+class Builder {
+public:
+    virtual void buildPartA() = 0;
+    virtual void buildPartB() = 0;
+    virtual Product* getResult() = 0;
+};
+
+class ConcreteBuilder : public Builder {
+private:
+    Product* product = new Product();
+public:
+    void buildPartA() override {
+        product->setPartA("Part A");
+    }
+
+    void buildPartB() override {
+        product->setPartB("Part B");
+    }
+
+    Product* getResult() override {
+        return product;
+    }
+};
+
+class Director {
+public:
+    void construct(Builder* builder) {
+        builder->buildPartA();
+        builder->buildPartB();
+    }
+};
+```
+
+---
+
+### <a id="prototype">5. 🧬 Prototype Pattern</a>
+
+**Purpose**: Create new objects by copying an existing object (a prototype).
+
+#### ✅ Use Case:
+- When object creation is expensive or complex.
+
+#### 💡 Code Example:
+```cpp
+class Prototype {
+public:
+    virtual Prototype* clone() = 0;
+    virtual void show() = 0;
+};
+
+class ConcretePrototype : public Prototype {
+private:
+    int id;
+public:
+    ConcretePrototype(int id) : id(id) {}
+    Prototype* clone() override {
+        return new ConcretePrototype(*this);
+    }
+
+    void show() override {
+        std::cout << "Prototype ID: " << id << std::endl;
+    }
+};
+```
 
 ## <a id="structural-patterns">Structural Patterns</a>
+
 ### <a id="adapter">🧱 1. Adapter Pattern</a>
 Allows incompatible interfaces to work together.
 ```cpp
