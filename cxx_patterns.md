@@ -1,32 +1,32 @@
 
 🔁 Creational Patterns
- * [Singleton](#Singleton)
- * Factory Method
- * Abstract Factory
- * Builder
- * Prototype
+    * [Singleton](#Singleton)
+    * Factory Method
+    * Abstract Factory
+    * Builder
+    * Prototype
 
 🔄 Structural Patterns
- * [Adapter](#Adapter)
- * Bridge
- * Composite
- * Decorator
- * Facade
- * Flyweight
- * Proxy
+    * [Adapter](#Adapter)
+    * Bridge
+    * Composite
+    * Decorator
+    * Facade
+    * Flyweight
+    * Proxy
  
 🔁 Behavioral Patterns
- * Observer
- * Strategy
- * Command
- * State
- * Iterator
- * Mediator
- * Memento
- * Visitor
- * Chain of Responsibility
- * Template Method
-
+    * Observer
+    * Strategy
+    * Command
+    * State
+    * Iterator
+    * Mediator
+    * Memento
+    * Visitor
+    * Chain of Responsibility
+    * Template Method
+---
 # <a id="Adapter">🧱 1. Adapter Pattern</a>
  Allows incompatible interfaces to work together.
 
