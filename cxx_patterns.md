@@ -1,5 +1,6 @@
 # Programming Patterns
-This is respond from chat gpt for request about programming patterns.
+> This is respond from chat gpt for request about programming patterns.
+
 ---
 
 ## Table of content
@@ -34,6 +35,7 @@ This is respond from chat gpt for request about programming patterns.
     * [Visitor](#visitor)
     * [Chain of Responsibility](#chain-of-responsibility)
     * [Template Method](#template-method)
+
 ---
 
 ## <a id="creational-patterns">🏗️ Creational Design Patterns in C++</a>
@@ -45,6 +47,7 @@ Creational patterns deal with object creation mechanisms, trying to create objec
 - [Abstract Factory](#abstract-factory)
 - [Builder](#builder)
 - [Prototype](#prototype)
+
 ---
 
 ### <a id="singleton">1. 🧍 Singleton Pattern</a>
@@ -108,6 +111,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="factory-method">2. 🏭 Factory Method Pattern</a>
@@ -182,9 +186,10 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
-***!!! Ниже идет не проверенный матерьял !!!***
+> ### ***!!! Ниже идет не проверенный матерьял !!!***  
 
 ### <a id="abstract-factory">3. 🏢 Abstract Factory Pattern</a>
 
@@ -233,6 +238,7 @@ public:
     }
 };
 ```
+
 ---
 
 ### <a id="builder">4. 🧱 Builder Pattern</a>
@@ -287,6 +293,7 @@ public:
     }
 };
 ```
+
 ---
 
 ### <a id="prototype">5. 🧬 Prototype Pattern</a>
@@ -318,6 +325,7 @@ public:
     }
 };
 ```
+
 ---
 
 ## <a id="structural-patterns">Structural Patterns</a>
@@ -328,6 +336,7 @@ public:
 - [Facade](#facade)
 - [Flyweight](#flyweight)
 - [Proxy](#proxy)
+
 ---
 
 ### <a id="adapter">🧱 1. Adapter Pattern</a>
@@ -372,6 +381,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="bridge">🌉 2. Bridge Pattern</a>
@@ -430,6 +440,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="composite">🌲 3. Composite Pattern</a>
@@ -481,6 +492,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="decorator">🎨 4. Decorator Pattern</a>
@@ -524,6 +536,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="facade">🏠 5. Facade Pattern</a>
@@ -564,6 +577,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="flyweight">🪶 6. Flyweight Pattern</a>
@@ -614,6 +628,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="proxy">🛡 7. Proxy Pattern</a>
@@ -663,6 +678,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ## <a id="begavioral-patterns">🤝 Behavioral Design Patterns in C++</a>
@@ -679,6 +695,7 @@ Behavioral patterns are concerned with algorithms and the assignment of responsi
 - [Visitor](#visitor)
 - [Chain of Responsibility](#chain-of-responsibility)
 - [Template Method](#template-method)
+
 ---
 
 ### <a id="observer">1. 🗣️ Observer Pattern</a>
@@ -732,6 +749,7 @@ public:
     }
 };
 ```
+
 ---
 
 ### <a id="strategy">2. 🧵 Strategy Pattern</a>
@@ -819,6 +837,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="command">3. 🧰 Command Pattern</a>
@@ -866,6 +885,7 @@ public:
     }
 };
 ```
+
 ---
 
 ### <a id="state">4. 🛂 State Pattern</a>
@@ -911,6 +931,7 @@ public:
     }
 };
 ```
+
 ---
 
 ### <a id="iterator">5. 🔁 Iterator Pattern</a>
@@ -960,6 +981,7 @@ public:
     }
 };
 ```
+
 ---
 
 ### <a id="mediator">6. 🧭 Mediator Pattern</a>
@@ -1048,6 +1070,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="memento">7. 🧳 Memento Pattern</a>
@@ -1116,6 +1139,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="visitor">8. 🧭 Visitor Pattern</a>
@@ -1197,6 +1221,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="chain-of-responsibility">9. Chain of Responsibility Pattern</a>
@@ -1284,6 +1309,7 @@ int main() {
     return 0;
 }
 ```
+
 ---
 
 ### <a id="template-method">10. 🧩 Template Method Pattern</a>
@@ -1369,4 +1395,5 @@ int main() {
     return 0;
 }
 ```
+
 ---
