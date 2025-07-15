@@ -58,24 +58,55 @@ Creational patterns deal with object creation mechanisms, trying to create objec
 
 #### 💡 Code Example:
 ```cpp
+#include <iostream>
+#include <mutex>
+
 class Singleton {
 private:
     static Singleton* instance;
-    Singleton() {} // Private constructor
+    static std::mutex mtx;
+
+    // Private constructor
+    Singleton() {
+        std::cout << "Singleton created\n";
+    }
+
+    // Prevent copy and assignment
+    Singleton(const Singleton&) = delete;
+    Singleton& operator=(const Singleton&) = delete;
 
 public:
     static Singleton* getInstance() {
-        if (!instance)
+        std::lock_guard<std::mutex> lock(mtx);
+        if (instance == nullptr) {
             instance = new Singleton();
+        }
         return instance;
     }
 
-    void showMessage() {
-        std::cout << "Hello from Singleton!" << std::endl;
+    void doSomething() {
+        std::cout << "Using Singleton\n";
     }
 };
 
+// Initialize static members
 Singleton* Singleton::instance = nullptr;
+std::mutex Singleton::mtx;
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    Singleton* s1 = Singleton::getInstance();
+    Singleton* s2 = Singleton::getInstance();
+
+    s1->doSomething();
+
+    if (s1 == s2) {
+        std::cout << "Both are the same instance\n";
+    }
+
+    return 0;
+}
 ```
 ---
 
@@ -88,31 +119,72 @@ Singleton* Singleton::instance = nullptr;
 
 #### 💡 Code Example:
 ```cpp
+#include <iostream>
+#include <memory>
+
+// Product Interface
 class Product {
 public:
     virtual void use() = 0;
+    virtual ~Product() = default;
 };
 
+// Concrete Product A
 class ConcreteProductA : public Product {
 public:
     void use() override {
-        std::cout << "Using Product A" << std::endl;
+        std::cout << "Using Product A\n";
     }
 };
 
-class Creator {
+// Concrete Product B
+class ConcreteProductB : public Product {
 public:
-    virtual Product* createProduct() = 0;
+    void use() override {
+        std::cout << "Using Product B\n";
+    }
 };
 
+// Creator (Factory)
+class Creator {
+public:
+    virtual std::unique_ptr<Product> createProduct() = 0;
+    virtual ~Creator() = default;
+};
+
+// Concrete Creator A
 class ConcreteCreatorA : public Creator {
 public:
-    Product* createProduct() override {
-        return new ConcreteProductA();
+    std::unique_ptr<Product> createProduct() override {
+        return std::make_unique<ConcreteProductA>();
+    }
+};
+
+// Concrete Creator B
+class ConcreteCreatorB : public Creator {
+public:
+    std::unique_ptr<Product> createProduct() override {
+        return std::make_unique<ConcreteProductB>();
     }
 };
 ```
+#### 🧪 Usage:
+```cpp
+int main() {
+    std::unique_ptr<Creator> creatorA = std::make_unique<ConcreteCreatorA>();
+    std::unique_ptr<Product> productA = creatorA->createProduct();
+    productA->use();  // Output: Using Product A
+
+    std::unique_ptr<Creator> creatorB = std::make_unique<ConcreteCreatorB>();
+    std::unique_ptr<Product> productB = creatorB->createProduct();
+    productB->use();  // Output: Using Product B
+
+    return 0;
+}
+```
 ---
+
+***!!! Ниже идет не проверенный матерьял !!!***
 
 ### <a id="abstract-factory">3. 🏢 Abstract Factory Pattern</a>
 
@@ -671,11 +743,39 @@ public:
 
 #### 💡 Code Example:
 ```cpp
+## 2. 🧵 Strategy Pattern
+
+**Intent**: Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.
+
+### ✅ Use When:
+- You need different variants of an algorithm.
+- You want to avoid conditional statements (like `if`/`switch`) for behavior selection.
+- You want to allow runtime changes to the behavior of an object.
+
+---
+
+### 💡 Structure
+
+- **Strategy (Interface)**: Declares an interface common to all supported algorithms.
+- **Concrete Strategies**: Implement different variations of the algorithm.
+- **Context**: Maintains a reference to a Strategy object and delegates the behavior to it.
+
+---
+
+### 💡 Example in C++
+
+```cpp
+#include <iostream>
+#include <memory>
+
+// Strategy interface
 class Strategy {
 public:
     virtual void execute() = 0;
+    virtual ~Strategy() = default;
 };
 
+// Concrete Strategy A
 class ConcreteStrategyA : public Strategy {
 public:
     void execute() override {
@@ -683,18 +783,41 @@ public:
     }
 };
 
+// Concrete Strategy B
+class ConcreteStrategyB : public Strategy {
+public:
+    void execute() override {
+        std::cout << "Executing Strategy B" << std::endl;
+    }
+};
+
+// Context class
 class Context {
 private:
-    Strategy* strategy;
+    std::unique_ptr<Strategy> strategy;
 public:
-    Context(Strategy* s) : strategy(s) {}
-    void setStrategy(Strategy* s) {
-        strategy = s;
+    Context(std::unique_ptr<Strategy> s) : strategy(std::move(s)) {}
+
+    void setStrategy(std::unique_ptr<Strategy> s) {
+        strategy = std::move(s);
     }
+
     void executeStrategy() {
         strategy->execute();
     }
 };
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    Context context(std::make_unique<ConcreteStrategyA>());
+    context.executeStrategy();  // Output: Executing Strategy A
+
+    context.setStrategy(std::make_unique<ConcreteStrategyB>());
+    context.executeStrategy();  // Output: Executing Strategy B
+
+    return 0;
+}
 ```
 ---
 
