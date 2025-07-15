@@ -27,7 +27,7 @@
  * Chain of Responsibility
  * Template Method
 
-<a id="Adapter">  🧱 1. Adapter Pattern</a>
+<a id="Adapter">#  🧱 1. Adapter Pattern</a>
   Allows incompatible interfaces to work together.
 
 ```cpp#include <iostream>
