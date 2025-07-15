@@ -1,4 +1,9 @@
 # Programming Patterns
+This is respond from chat gpt for request about programming patterns.
+---
+
+## Table of content
+
 1. 🔁 [Creational Patterns](#creational-patterns)
 
     - [Singleton](#singleton)
@@ -17,24 +22,29 @@
     - [Flyweight](#flyweight)
     - [Proxy](#proxy)
 
-3. 🔁 Behavioral Patterns
+3. 🔁 [Behavioral Patterns](#begavioral-patterns)
 
-    * Observer
-    * Strategy
-    * Command
-    * State
-    * Iterator
-    * Mediator
-    * Memento
-    * Visitor
-    * Chain of Responsibility
-    * Template Method
-
+    * [Observer](#observer)
+    * [Strategy](#strategy)
+    * [Command](#command)
+    * [State](#state)
+    * [Iterator](#iterator)
+    * [Mediator](#mediator)
+    * [Memento](#memento)
+    * [Visitor](#visitor)
+    * [Chain of Responsibility](#chain-of-responsibility)
+    * [Template Method](#template-method)
 ---
+
 ## <a id="creational-patterns">🏗️ Creational Design Patterns in C++</a>
 
 Creational patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation.
 
+- [Singleton](#singleton)
+- [Factory Method](#factory-method)
+- [Abstract Factory](#abstract-factory)
+- [Builder](#builder)
+- [Prototype](#prototype)
 ---
 
 ### <a id="singleton">1. 🧍 Singleton Pattern</a>
@@ -67,7 +77,6 @@ public:
 
 Singleton* Singleton::instance = nullptr;
 ```
-
 ---
 
 ### <a id="factory-method">2. 🏭 Factory Method Pattern</a>
@@ -103,7 +112,6 @@ public:
     }
 };
 ```
-
 ---
 
 ### <a id="abstract-factory">3. 🏢 Abstract Factory Pattern</a>
@@ -153,7 +161,6 @@ public:
     }
 };
 ```
-
 ---
 
 ### <a id="builder">4. 🧱 Builder Pattern</a>
@@ -208,7 +215,6 @@ public:
     }
 };
 ```
-
 ---
 
 ### <a id="prototype">5. 🧬 Prototype Pattern</a>
@@ -240,8 +246,17 @@ public:
     }
 };
 ```
+---
 
 ## <a id="structural-patterns">Structural Patterns</a>
+- [Adapter](#adapter)
+- [Bridge](#bridge)
+- [Composite](#composite)
+- [Decorator](#decorator)
+- [Facade](#facade)
+- [Flyweight](#flyweight)
+- [Proxy](#proxy)
+---
 
 ### <a id="adapter">🧱 1. Adapter Pattern</a>
 Allows incompatible interfaces to work together.
@@ -273,7 +288,9 @@ public:
         oldPrinter->oldPrint(text);
     }
 };
-
+```
+#### 🧪 Usage:
+```cpp
 int main() {
     OldPrinter* old = new OldPrinter();
     NewPrinter* adapter = new PrinterAdapter(old);
@@ -283,6 +300,7 @@ int main() {
     return 0;
 }
 ```
+---
 
 ### <a id="bridge">🌉 2. Bridge Pattern</a>
 
@@ -330,7 +348,9 @@ public:
         renderer->renderCircle(radius);
     }
 };
-
+```
+#### 🧪 Usage:
+```cpp
 int main() {
     VectorRenderer vr;
     Circle c(&vr, 5.0f);
@@ -338,6 +358,8 @@ int main() {
     return 0;
 }
 ```
+---
+
 ### <a id="composite">🌲 3. Composite Pattern</a>
 
 Treats individual objects and composites uniformly.
@@ -375,7 +397,9 @@ public:
         for (auto c : children) delete c;
     }
 };
-
+```
+#### 🧪 Usage:
+```cpp
 int main() {
     Composite* root = new Composite();
     root->add(new Leaf());
@@ -385,6 +409,8 @@ int main() {
     return 0;
 }
 ```
+---
+
 ### <a id="decorator">🎨 4. Decorator Pattern</a>
 
 Adds behavior to objects dynamically.
@@ -414,7 +440,9 @@ public:
         return coffee->cost() + 2;
     }
 };
-
+```
+#### 🧪 Usage:
+```cpp
 int main() {
     Coffee* coffee = new BasicCoffee();
     Coffee* milkCoffee = new MilkDecorator(coffee);
@@ -424,6 +452,8 @@ int main() {
     return 0;
 }
 ```
+---
+
 ### <a id="facade">🏠 5. Facade Pattern</a>
 
 Provides a simplified interface to a complex system.
@@ -453,13 +483,17 @@ public:
         cpu.execute();
     }
 };
-
+```
+#### 🧪 Usage:
+```cpp
 int main() {
     ComputerFacade computer;
     computer.start();
     return 0;
 }
 ```
+---
+
 ### <a id="flyweight">🪶 6. Flyweight Pattern</a>
 
 Reduces memory usage by sharing data.
@@ -495,7 +529,9 @@ public:
         }
     }
 };
-
+```
+#### 🧪 Usage:
+```cpp
 int main() {
     FlyweightFactory factory;
     Flyweight* f1 = factory.getFlyweight("Circle");
@@ -506,6 +542,8 @@ int main() {
     return 0;
 }
 ```
+---
+
 ### <a id="proxy">🛡 7. Proxy Pattern</a>
 
 Acts as a placeholder or access controller.
@@ -543,7 +581,9 @@ public:
         delete realSubject;
     }
 };
-
+```
+#### 🧪 Usage:
+```cpp
 int main() {
     Subject* proxy = new Proxy();
     proxy->request();
@@ -551,3 +591,659 @@ int main() {
     return 0;
 }
 ```
+---
+
+## <a id="begavioral-patterns">🤝 Behavioral Design Patterns in C++</a>
+
+Behavioral patterns are concerned with algorithms and the assignment of responsibilities between objects.
+
+- [Observer](#observer)
+- [Strategy](#strategy)
+- [Command](#command)
+- [State](#state)
+- [Iterator](#iterator)
+- [Mediator](#mediator)
+- [Memento](#memento)
+- [Visitor](#visitor)
+- [Chain of Responsibility](#chain-of-responsibility)
+- [Template Method](#template-method)
+---
+
+### <a id="observer">1. 🗣️ Observer Pattern</a>
+
+**Purpose**: Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified.
+
+#### ✅ Use Case:
+- Event handling systems
+- GUI frameworks
+
+#### 💡 Code Example:
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+class Observer {
+public:
+    virtual void update(int value) = 0;
+};
+
+class Subject {
+private:
+    std::vector<Observer*> observers;
+    int state;
+
+public:
+    void attach(Observer* obs) {
+        observers.push_back(obs);
+    }
+
+    void setState(int value) {
+        state = value;
+        notify();
+    }
+
+    void notify() {
+        for (Observer* obs : observers) {
+            obs->update(state);
+        }
+    }
+};
+
+class ConcreteObserver : public Observer {
+private:
+    int observerState;
+public:
+    void update(int value) override {
+        observerState = value;
+        std::cout << "Observer updated with state: " << observerState << std::endl;
+    }
+};
+```
+---
+
+### <a id="strategy">2. 🧵 Strategy Pattern</a>
+
+**Purpose**: Defines a family of algorithms, encapsulates each one, and makes them interchangeable.
+
+#### ✅ Use Case:
+- Dynamic behavior changes at runtime
+
+#### 💡 Code Example:
+```cpp
+class Strategy {
+public:
+    virtual void execute() = 0;
+};
+
+class ConcreteStrategyA : public Strategy {
+public:
+    void execute() override {
+        std::cout << "Executing Strategy A" << std::endl;
+    }
+};
+
+class Context {
+private:
+    Strategy* strategy;
+public:
+    Context(Strategy* s) : strategy(s) {}
+    void setStrategy(Strategy* s) {
+        strategy = s;
+    }
+    void executeStrategy() {
+        strategy->execute();
+    }
+};
+```
+---
+
+### <a id="command">3. 🧰 Command Pattern</a>
+
+**Purpose**: Encapsulate a request as an object, thereby allowing for parameterization of clients with queues, logs, and undo functionality.
+
+#### ✅ Use Case:
+- GUI buttons
+- Task scheduling
+
+#### 💡 Code Example:
+```cpp
+class Command {
+public:
+    virtual void execute() = 0;
+};
+
+class Receiver {
+public:
+    void action() {
+        std::cout << "Action performed!" << std::endl;
+    }
+};
+
+class ConcreteCommand : public Command {
+private:
+    Receiver* receiver;
+public:
+    ConcreteCommand(Receiver* r) : receiver(r) {}
+    void execute() override {
+        receiver->action();
+    }
+};
+
+class Invoker {
+private:
+    Command* command;
+public:
+    void setCommand(Command* cmd) {
+        command = cmd;
+    }
+
+    void run() {
+        command->execute();
+    }
+};
+```
+---
+
+### <a id="state">4. 🛂 State Pattern</a>
+
+**Purpose**: Allows an object to alter its behavior when its internal state changes.
+
+#### ✅ Use Case:
+- Finite state machines
+
+#### 💡 Code Example:
+```cpp
+class State {
+public:
+    virtual void handle() = 0;
+};
+
+class Context {
+private:
+    State* state;
+public:
+    Context(State* s) : state(s) {}
+
+    void setState(State* s) {
+        state = s;
+    }
+
+    void request() {
+        state->handle();
+    }
+};
+
+class ConcreteStateA : public State {
+public:
+    void handle() override {
+        std::cout << "Handling in State A" << std::endl;
+    }
+};
+
+class ConcreteStateB : public State {
+public:
+    void handle() override {
+        std::cout << "Handling in State B" << std::endl;
+    }
+};
+```
+---
+
+### <a id="iterator">5. 🔁 Iterator Pattern</a>
+
+**Purpose**: Provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation.
+
+#### ✅ Use Case:
+- Collections and containers
+
+#### 💡 Code Example:
+```cpp
+#include <iostream>
+#include <vector>
+
+class Iterator {
+public:
+    virtual bool hasNext() = 0;
+    virtual int next() = 0;
+};
+
+class Aggregate {
+private:
+    std::vector<int> items;
+public:
+    void add(int value) {
+        items.push_back(value);
+    }
+
+    std::vector<int> getItems() const {
+        return items;
+    }
+};
+
+class ConcreteIterator : public Iterator {
+private:
+    const std::vector<int>& items;
+    size_t index;
+public:
+    ConcreteIterator(const std::vector<int>& items) : items(items), index(0) {}
+
+    bool hasNext() override {
+        return index < items.size();
+    }
+
+    int next() override {
+        return items[index++];
+    }
+};
+```
+---
+
+### <a id="mediator">6. 🧭 Mediator Pattern</a>
+
+**Intent**: Define an object that encapsulates how a set of objects interact. Mediator promotes loose coupling by keeping objects from referring to each other explicitly.
+
+#### ✅ Use When:
+- A set of objects communicate in complex ways.
+- You want to centralize control and reduce direct dependencies between objects.
+
+#### 💡 Example:
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+class Colleague;
+
+class Mediator {
+public:
+    virtual void send(const std::string& message, Colleague* sender) = 0;
+};
+
+class Colleague {
+protected:
+    Mediator* mediator;
+public:
+    Colleague(Mediator* m) : mediator(m) {}
+    virtual void send(const std::string& message) = 0;
+    virtual void receive(const std::string& message) = 0;
+};
+
+class ConcreteColleague1 : public Colleague {
+public:
+    ConcreteColleague1(Mediator* m) : Colleague(m) {}
+    void send(const std::string& message) override {
+        std::cout << "Colleague1 sends: " << message << std::endl;
+        mediator->send(message, this);
+    }
+    void receive(const std::string& message) override {
+        std::cout << "Colleague1 receives: " << message << std::endl;
+    }
+};
+
+class ConcreteColleague2 : public Colleague {
+public:
+    ConcreteColleague2(Mediator* m) : Colleague(m) {}
+    void send(const std::string& message) override {
+        std::cout << "Colleague2 sends: " << message << std::endl;
+        mediator->send(message, this);
+    }
+    void receive(const std::string& message) override {
+        std::cout << "Colleague2 receives: " << message << std::endl;
+    }
+};
+
+class ConcreteMediator : public Mediator {
+private:
+    Colleague* colleague1;
+    Colleague* colleague2;
+public:
+    void setColleagues(Colleague* c1, Colleague* c2) {
+        colleague1 = c1;
+        colleague2 = c2;
+    }
+
+    void send(const std::string& message, Colleague* sender) override {
+        if (sender == colleague1)
+            colleague2->receive(message);
+        else
+            colleague1->receive(message);
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    ConcreteMediator mediator;
+    ConcreteColleague1 c1(&mediator);
+    ConcreteColleague2 c2(&mediator);
+    mediator.setColleagues(&c1, &c2);
+
+    c1.send("Hello from Colleague1");
+    c2.send("Hi from Colleague2");
+
+    return 0;
+}
+```
+---
+
+### <a id="memento">7. 🧳 Memento Pattern</a>
+
+**Intent**: Capture and externalize an object's internal state so that it can be restored later, without violating encapsulation.
+
+#### ✅ Use When:
+- You need to implement undo/rollback functionality.
+- You want to preserve an object’s state without exposing its internals.
+
+#### 💡 Example:
+```cpp
+#include <iostream>
+#include <string>
+
+class Memento {
+private:
+    std::string state;
+public:
+    Memento(const std::string& s) : state(s) {}
+    std::string getState() const { return state; }
+};
+
+class Originator {
+private:
+    std::string state;
+public:
+    void setState(const std::string& s) {
+        state = s;
+        std::cout << "State set to: " << state << std::endl;
+    }
+
+    std::string getState() const { return state; }
+
+    Memento save() const {
+        return Memento(state);
+    }
+
+    void restore(const Memento& memento) {
+        state = memento.getState();
+        std::cout << "State restored to: " << state << std::endl;
+    }
+};
+
+class Caretaker {
+private:
+    Memento memento;
+public:
+    Caretaker(const Memento& m) : memento(m) {}
+    Memento getMemento() const { return memento; }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    Originator originator;
+    originator.setState("State #1");
+
+    Caretaker caretaker(originator.save());
+
+    originator.setState("State #2");
+
+    // Restore previous state
+    originator.restore(caretaker.getMemento());
+
+    return 0;
+}
+```
+---
+
+### <a id="visitor">8. 🧭 Visitor Pattern</a>
+
+**Intent**: Represent an operation to be performed on elements of an object structure. Visitor lets you define a new operation **without changing the classes** of the elements on which it operates.
+
+#### ✅ Use When:
+- You want to perform operations across a collection of objects with different types.
+- You need to add behavior to class hierarchies without modifying the classes.
+
+#### 💡 Example:
+```cpp
+#include <iostream>
+#include <vector>
+
+class ConcreteElementA;
+class ConcreteElementB;
+
+class Visitor {
+public:
+    virtual void visit(ConcreteElementA* element) = 0;
+    virtual void visit(ConcreteElementB* element) = 0;
+};
+
+class Element {
+public:
+    virtual void accept(Visitor* visitor) = 0;
+};
+
+class ConcreteElementA : public Element {
+public:
+    void accept(Visitor* visitor) override {
+        visitor->visit(this);
+    }
+    void operationA() {
+        std::cout << "Operation A in Element A" << std::endl;
+    }
+};
+
+class ConcreteElementB : public Element {
+public:
+    void accept(Visitor* visitor) override {
+        visitor->visit(this);
+    }
+    void operationB() {
+        std::cout << "Operation B in Element B" << std::endl;
+    }
+};
+
+class ConcreteVisitor : public Visitor {
+public:
+    void visit(ConcreteElementA* element) override {
+        element->operationA();
+    }
+
+    void visit(ConcreteElementB* element) override {
+        element->operationB();
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    std::vector<Element*> elements;
+    elements.push_back(new ConcreteElementA());
+    elements.push_back(new ConcreteElementB());
+
+    ConcreteVisitor visitor;
+
+    for (Element* elem : elements) {
+        elem->accept(&visitor);
+    }
+
+    // Clean up
+    for (Element* elem : elements) {
+        delete elem;
+    }
+
+    return 0;
+}
+```
+---
+
+### <a id="chain-of-responsibility">9. Chain of Responsibility Pattern</a>
+
+**Intent**: Avoid coupling the sender of a request to its receiver by giving multiple objects a chance to handle the request. Chain the receiving objects and pass the request along the chain until one handles it.
+
+#### ✅ Use When:
+- More than one object may handle a request, and you don’t want the sender to know which.
+- You want to decouple senders and receivers.
+
+#### 💡 Example:
+```cpp
+#include <iostream>
+#include <string>
+
+class Handler {
+protected:
+    Handler* next;
+public:
+    Handler() : next(nullptr) {}
+
+    void setNext(Handler* handler) {
+        next = handler;
+    }
+
+    virtual void handleRequest(int level) {
+        if (next)
+            next->handleRequest(level);
+    }
+
+    virtual ~Handler() = default;
+};
+
+class ConcreteHandler1 : public Handler {
+public:
+    void handleRequest(int level) override {
+        if (level == 1) {
+            std::cout << "Handled by Handler 1\n";
+        } else if (next) {
+            next->handleRequest(level);
+        }
+    }
+};
+
+class ConcreteHandler2 : public Handler {
+public:
+    void handleRequest(int level) override {
+        if (level == 2) {
+            std::cout << "Handled by Handler 2\n";
+        } else if (next) {
+            next->handleRequest(level);
+        }
+    }
+};
+
+class ConcreteHandler3 : public Handler {
+public:
+    void handleRequest(int level) override {
+        if (level == 3) {
+            std::cout << "Handled by Handler 3\n";
+        } else {
+            std::cout << "Request not handled\n";
+        }
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    Handler* h1 = new ConcreteHandler1();
+    Handler* h2 = new ConcreteHandler2();
+    Handler* h3 = new ConcreteHandler3();
+
+    h1->setNext(h2);
+    h2->setNext(h3);
+
+    h1->handleRequest(2); // Output: Handled by Handler 2
+    h1->handleRequest(3); // Output: Handled by Handler 3
+    h1->handleRequest(4); // Output: Request not handled
+
+    delete h1;
+    delete h2;
+    delete h3;
+
+    return 0;
+}
+```
+---
+
+### <a id="template-method">10. 🧩 Template Method Pattern</a>
+
+**Intent**: Define the skeleton of an algorithm in a base class, but let subclasses override specific steps of the algorithm without changing its overall structure.
+
+#### ✅ Use When:
+- You want to define the outline of an algorithm, letting subclasses implement specific steps.
+- You want to enforce a consistent process structure across classes.
+
+#### 💡 Example:
+```cpp
+#include <iostream>
+
+class AbstractClass {
+public:
+    void templateMethod() {
+        baseOperation1();
+        requiredOperation1();
+        baseOperation2();
+        requiredOperation2();
+        hook();
+    }
+
+protected:
+    void baseOperation1() {
+        std::cout << "Base operation 1\n";
+    }
+
+    void baseOperation2() {
+        std::cout << "Base operation 2\n";
+    }
+
+    virtual void requiredOperation1() = 0;
+    virtual void requiredOperation2() = 0;
+
+    virtual void hook() {
+        // Optional override
+    }
+};
+
+class ConcreteClassA : public AbstractClass {
+protected:
+    void requiredOperation1() override {
+        std::cout << "ConcreteClassA: Operation 1\n";
+    }
+
+    void requiredOperation2() override {
+        std::cout << "ConcreteClassA: Operation 2\n";
+    }
+};
+
+class ConcreteClassB : public AbstractClass {
+protected:
+    void requiredOperation1() override {
+        std::cout << "ConcreteClassB: Operation 1\n";
+    }
+
+    void requiredOperation2() override {
+        std::cout << "ConcreteClassB: Operation 2\n";
+    }
+
+    void hook() override {
+        std::cout << "ConcreteClassB: Optional hook\n";
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    AbstractClass* a = new ConcreteClassA();
+    AbstractClass* b = new ConcreteClassB();
+
+    std::cout << "Executing A:\n";
+    a->templateMethod();
+
+    std::cout << "\nExecuting B:\n";
+    b->templateMethod();
+
+    delete a;
+    delete b;
+
+    return 0;
+}
+```
+---
