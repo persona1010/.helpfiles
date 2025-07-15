@@ -1,19 +1,24 @@
 # Programming Patterns
 1. 🔁 [Creational Patterns](#creational-patterns)
+
     - [Singleton](#singleton)
     - Factory Method
     - Abstract Factory
     - Builder
     - Prototype
+
 2. 🔄 [Structural Patterns](#structural-patterns)
+
     - [Adapter](#adapter)
-    - Bridge
-    - Composite
-    - Decorator
-    - Facade
-    - Flyweight
-    - Proxy
+    - [Bridge](#bridge)
+    - [Composite](#composite)
+    - [Decorator](#decorator)
+    - [Facade](#facade)
+    - [Flyweight](#flyweight)
+    - [Proxy](#proxy)
+
 3. 🔁 Behavioral Patterns
+
     * Observer
     * Strategy
     * Command
@@ -24,18 +29,18 @@
     * Visitor
     * Chain of Responsibility
     * Template Method
+
 ---
 ## <a id="creational-patterns">Creational Patterns</a>
 
 ## <a id="structural-patterns">Structural Patterns</a>
 ### <a id="adapter">🧱 1. Adapter Pattern</a>
- Allows incompatible interfaces to work together.
-
+Allows incompatible interfaces to work together.
 ```cpp
 #include <iostream>
 using namespace std;
 
-// Adapter
+// Adaptee
 class OldPrinter {
 public:
     void oldPrint(const string& text) {
@@ -70,10 +75,11 @@ int main() {
 }
 ```
 
-🌉 2. Bridge Pattern
+### <a id="bridge">🌉 2. Bridge Pattern</a>
 
 Separates abstraction from implementation.
 
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -122,11 +128,11 @@ int main() {
     c.draw();
     return 0;
 }
-
-🌲 3. Composite Pattern
+```
+### <a id="composite">🌲 3. Composite Pattern</a>
 
 Treats individual objects and composites uniformly.
-
+```cpp
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -169,11 +175,11 @@ int main() {
     delete root;
     return 0;
 }
-
-🎨 4. Decorator Pattern
+```
+### <a id="decorator">🎨 4. Decorator Pattern</a>
 
 Adds behavior to objects dynamically.
-
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -208,11 +214,11 @@ int main() {
     delete coffee;
     return 0;
 }
-
-🏠 5. Facade Pattern
+```
+### <a id="facade">🏠 5. Facade Pattern</a>
 
 Provides a simplified interface to a complex system.
-
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -244,11 +250,11 @@ int main() {
     computer.start();
     return 0;
 }
-
-🪶 6. Flyweight Pattern
+```
+### <a id="flyweight">🪶 6. Flyweight Pattern</a>
 
 Reduces memory usage by sharing data.
-
+```cpp
 #include <iostream>
 #include <unordered_map>
 using namespace std;
@@ -290,11 +296,11 @@ int main() {
     f2->operation("Blue");
     return 0;
 }
-
-🛡 7. Proxy Pattern
+```
+### <a id="proxy">🛡 7. Proxy Pattern</a>
 
 Acts as a placeholder or access controller.
-
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -335,3 +341,4 @@ int main() {
     delete proxy;
     return 0;
 }
+```
