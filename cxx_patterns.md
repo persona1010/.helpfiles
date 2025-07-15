@@ -1,21 +1,19 @@
-
-🔁 Creational Patterns
-    * [Singleton](#Singleton)
-    * Factory Method
-    * Abstract Factory
-    * Builder
-    * Prototype
-
-🔄 Structural Patterns
-    * [Adapter](#Adapter)
-    * Bridge
-    * Composite
-    * Decorator
-    * Facade
-    * Flyweight
-    * Proxy
- 
-🔁 Behavioral Patterns
+# Programming Patterns
+1. 🔁 [Creational Patterns](#creational-patterns)
+    - [Singleton](#singleton)
+    - Factory Method
+    - Abstract Factory
+    - Builder
+    - Prototype
+2. 🔄 [Structural Patterns](#structural-patterns)
+    - [Adapter](#adapter)
+    - Bridge
+    - Composite
+    - Decorator
+    - Facade
+    - Flyweight
+    - Proxy
+3. 🔁 Behavioral Patterns
     * Observer
     * Strategy
     * Command
@@ -27,10 +25,14 @@
     * Chain of Responsibility
     * Template Method
 ---
-# <a id="Adapter">🧱 1. Adapter Pattern</a>
+## <a id="creational-patterns">Creational Patterns</a>
+
+## <a id="structural-patterns">Structural Patterns</a>
+### <a id="adapter">🧱 1. Adapter Pattern</a>
  Allows incompatible interfaces to work together.
 
-```cpp#include <iostream>
+```cpp
+#include <iostream>
 using namespace std;
 
 // Adapter
@@ -65,7 +67,8 @@ int main() {
     delete adapter;
     delete old;
     return 0;
-} ```
+}
+```
 
 🌉 2. Bridge Pattern
 
