@@ -189,54 +189,468 @@ int main() {
 
 ---
 
-> ### ***!!! Ниже идет не проверенный матерьял !!!***  
-
 ### <a id="abstract-factory">3. 🏢 Abstract Factory Pattern</a>
 
 **Purpose**: Provide an interface for creating families of related or dependent objects without specifying their concrete classes.
+* You want to ensure products are used together (e.g., matching buttons and checkboxes for a UI).
+* You want to switch between different product families easily at runtime (e.g., Windows vs Mac).
 
 #### ✅ Use Case:
 - UI toolkit that supports multiple themes (e.g., Light, Dark)
+- Database access libraries (e.g., switching between SQL engines)
+- Dependency injection frameworks (to switch services at runtime)
 
+#### Key Components:
+- **Abstract Factory** - Declares methods to create abstract products.
+- **Concrete Factory** - Implements creation methods for specific product variants.
+- **Abstract Product** - Declares interfaces for product types.
+- **Concrete Product** - Implements the abstract product interface.
+- **Client** - Uses only interfaces declared by abstract factory and products.
 #### 💡 Code Example:
 ```cpp
+#include <iostream>
+#include <memory>
+using namespace std;
+
+// Abstract Product A
 class Button {
 public:
     virtual void render() = 0;
+    virtual ~Button() = default;
 };
 
-class WinButton : public Button {
+// Abstract Product B
+class Checkbox {
+public:
+    virtual void render() = 0;
+    virtual ~Checkbox() = default;
+};
+
+// Concrete Product A1
+class WindowsButton : public Button {
 public:
     void render() override {
-        std::cout << "Render Windows Button" << std::endl;
+        cout << "Rendering Windows Button\n";
     }
 };
 
+// Concrete Product B1
+class WindowsCheckbox : public Checkbox {
+public:
+    void render() override {
+        cout << "Rendering Windows Checkbox\n";
+    }
+};
+
+// Concrete Product A2
 class MacButton : public Button {
 public:
     void render() override {
-        std::cout << "Render Mac Button" << std::endl;
+        cout << "Rendering Mac Button\n";
     }
 };
 
+// Concrete Product B2
+class MacCheckbox : public Checkbox {
+public:
+    void render() override {
+        cout << "Rendering Mac Checkbox\n";
+    }
+};
+
+// Abstract Factory
 class GUIFactory {
 public:
     virtual Button* createButton() = 0;
+    virtual Checkbox* createCheckbox() = 0;
+    virtual ~GUIFactory() = default;
 };
 
-class WinFactory : public GUIFactory {
+// Concrete Factory 1
+class WindowsFactory : public GUIFactory {
 public:
     Button* createButton() override {
-        return new WinButton();
+        return new WindowsButton();
+    }
+
+    Checkbox* createCheckbox() override {
+        return new WindowsCheckbox();
     }
 };
 
+// Concrete Factory 2
 class MacFactory : public GUIFactory {
 public:
     Button* createButton() override {
         return new MacButton();
     }
+
+    Checkbox* createCheckbox() override {
+        return new MacCheckbox();
+    }
 };
+
+// Client Code
+class Application {
+private:
+    unique_ptr<Button> button;
+    unique_ptr<Checkbox> checkbox;
+
+public:
+    Application(GUIFactory* factory) {
+        button.reset(factory->createButton());
+        checkbox.reset(factory->createCheckbox());
+    }
+
+    void renderUI() {
+        button->render();
+        checkbox->render();
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    // Choose factory (e.g., based on OS or user setting)
+    GUIFactory* factory = new WindowsFactory();
+    Application app(factory);
+    app.renderUI();
+```
+
+---
+
+### <a id="builder">4. 🧱 Builder Pattern</a>
+
+**Purpose**: Separate the construction of a complex object from its representation.
+
+#### ✅ Use Case:
+- When creating objects with many optional fields or steps.
+
+#### 💡 Code Example:
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Product
+class Car {
+public:
+    string engine;
+    string wheels;
+    string color;
+
+    void show() const {
+        cout << "Car with " << engine << " engine, " << wheels << " wheels, color " << color << ".\n";
+    }
+};
+
+// Abstract Builder
+class CarBuilder {
+public:
+    virtual void buildEngine() = 0;
+    virtual void buildWheels() = 0;
+    virtual void paintCar() = 0;
+    virtual Car* getCar() = 0;
+    virtual ~CarBuilder() = default;
+};
+
+// Concrete Builder
+class SportsCarBuilder : public CarBuilder {
+private:
+    Car* car;
+
+public:
+    SportsCarBuilder() {
+        car = new Car();
+    }
+
+    void buildEngine() override {
+        car->engine = "V8";
+    }
+
+    void buildWheels() override {
+        car->wheels = "Alloy";
+    }
+
+    void paintCar() override {
+        car->color = "Red";
+    }
+
+    Car* getCar() override {
+        return car;
+    }
+};
+
+// Director (optional)
+class Director {
+public:
+    void construct(CarBuilder* builder) {
+        builder->buildEngine();
+        builder->buildWheels();
+        builder->paintCar();
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    Director director;
+    SportsCarBuilder builder;
+
+    director.construct(&builder);
+    Car* car = builder.getCar();
+    car->show();
+
+    delete car;
+    return 0;
+}
+```
+
+---
+
+### <a id="prototype">5. 🧬 Prototype Pattern</a>
+
+**Purpose**: Create new objects by copying an existing object (a prototype).
+
+#### ✅ Use Case:
+- When object creation is expensive or complex.
+
+#### 💡 Code Example:
+```cpp
+class Prototype {
+public:
+    virtual Prototype* clone() = 0;
+    virtual void show() = 0;
+};
+
+class ConcretePrototype : public Prototype {
+private:
+    int id;
+public:
+    ConcretePrototype(int id) : id(id) {}
+    Prototype* clone() override {
+        return new ConcretePrototype(*this);
+    }
+
+    void show() override {
+        std::cout << "Prototype ID: " << id << std::endl;
+    }
+};
+```
+
+---
+
+## <a id="structural-patterns">Structural Patterns</a>
+- [Adapter](#adapter)
+- [Bridge](#bridge)
+- [Composite](#composite)
+- [Decorator](#decorator)
+- [Facade](#facade)
+- [Flyweight](#flyweight)
+- [Proxy](#proxy)
+
+---
+
+### <a id="adapter">🧱 1. Adapter Pattern</a>
+Allows incompatible interfaces to work together.
+```cpp
+#include <iostream>
+using namespace std;
+
+// Adaptee
+class OldPrinter {
+public:
+    void oldPrint(const string& text) {
+        cout << "Old print: " << text << endl;
+    }
+};
+
+// Target interface
+class NewPrinter {
+public:
+    virtual void print(const string& text) = 0;
+};
+
+// Adapter
+class PrinterAdapter : public NewPrinter {
+private:
+    OldPrinter* oldPrinter;
+public:
+    PrinterAdapter(OldPrinter* printer) : oldPrinter(printer) {}
+    void print(const string& text) override {
+        oldPrinter->oldPrint(text);
+    }
+};
+```
+#### 🧪 
+```cpp
+int main() {
+    // Choose factory (e.g., based on OS or user setting)
+    GUIFactory* factory = new WindowsFactory();
+    Application app(factory);
+    app.renderUI();
+```
+
+---
+
+### <a id="builder">4. 🧱 Builder Pattern</a>
+
+**Purpose**: Separate the construction of a complex object from its representation.
+
+#### ✅ Use Case:
+- When creating objects with many optional fields or steps.
+
+#### 💡 Code Example:
+```cpp
+class Product {
+public:
+    void setPartA(std::string part) { partA = part; }
+    void setPartB(std::string part) { partB = part; }
+    void show() {
+        std::cout << "Product with " << partA << " and " << partB << std::endl;
+    }
+private:
+    std::string partA, partB;
+};
+
+class Builder {
+public:
+    virtual void buildPartA() = 0;
+    virtual void buildPartB() = 0;
+    virtual Product* getResult() = 0;
+};
+
+class ConcreteBuilder : public Builder {
+private:
+    Product* product = new Product();
+public:
+    void buildPartA() override {
+        product->setPartA("Part A");
+    }
+
+    void buildPartB() override {
+        product->setPartB("Part B");
+    }
+
+    Product* getResult() override {
+        return product;
+    }
+};
+
+class Director {
+public:
+    void construct(Builder* builder) {
+        builder->buildPartA();
+        builder->buildPartB();
+    }
+};
+```
+
+---
+
+### <a id="prototype">5. 🧬 Prototype Pattern</a>
+
+**Purpose**: Create new objects by copying an existing object (a prototype).
+
+#### ✅ Use Case:
+- When object creation is expensive or complex.
+- When you want to keep a registry of prototype objects.
+- In graphical applications for duplicating objects.
+
+#### 💡 Code Example:
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Prototype {
+public:
+    virtual Prototype* clone() const = 0;
+    virtual void info() const = 0;
+    virtual ~Prototype() = default;
+};
+
+class ConcretePrototype : public Prototype {
+private:
+    string data;
+public:
+    ConcretePrototype(const string& d) : data(d) {}
+
+    Prototype* clone() const override {
+        return new ConcretePrototype(*this);  // copy constructor
+    }
+
+    void info() const override {
+        cout << "ConcretePrototype with data: " << data << endl;
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    ConcretePrototype* original = new ConcretePrototype("Original");
+    ConcretePrototype* copy = static_cast<ConcretePrototype*>(original->clone());
+
+    original->info();
+    copy->info();
+
+    delete original;
+    delete copy;
+    return 0;
+}
+```
+
+---
+
+## <a id="structural-patterns">Structural Patterns</a>
+- [Adapter](#adapter)
+- [Bridge](#bridge)
+- [Composite](#composite)
+- [Decorator](#decorator)
+- [Facade](#facade)
+- [Flyweight](#flyweight)
+- [Proxy](#proxy)
+
+---
+
+### <a id="adapter">🧱 1. Adapter Pattern</a>
+Allows incompatible interfaces to work together.
+```cpp
+#include <iostream>
+using namespace std;
+
+// Adaptee
+class OldPrinter {
+public:
+    void oldPrint(const string& text) {
+        cout << "Old print: " << text << endl;
+    }
+};
+
+// Target interface
+class NewPrinter {
+public:
+    virtual void print(const string& text) = 0;
+};
+
+// Adapter
+class PrinterAdapter : public NewPrinter {
+private:
+    OldPrinter* oldPrinter;
+public:
+    PrinterAdapter(OldPrinter* printer) : oldPrinter(printer) {}
+    void print(const string& text) override {
+        oldPrinter->oldPrint(text);
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    // Choose factory (e.g., based on OS or user setting)
+    GUIFactory* factory = new WindowsFactory();
+    Application app(factory);
+    app.renderUI();
 ```
 
 ---
