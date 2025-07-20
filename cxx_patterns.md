@@ -706,48 +706,112 @@ Behavioral patterns are concerned with algorithms and the assignment of responsi
 - Event handling systems
 - GUI frameworks
 
+
+#### 💡 Intent
+
+> Define a **one-to-many dependency** between objects so that when one object changes state, all its dependents are notified and updated **automatically**.
+
+#### 🔧 Structure
+
+- **Subject (Publisher)**:  
+  Maintains a list of observers and notifies them of state changes.
+  
+- **Observer (Subscriber)**:  
+  Defines an interface for receiving updates from the subject.
+
+- **ConcreteSubject**:  
+  Stores the actual state of interest and sends notifications.
+
+- **ConcreteObserver**:  
+  Implements the update behavior in response to changes in the subject.
+
 #### 💡 Code Example:
+
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <string>
+using namespace std;
 
+// Forward declaration
+class Observer;
+
+// Subject Interface
+class Subject {
+public:
+    virtual void attach(Observer* o) = 0;
+    virtual void detach(Observer* o) = 0;
+    virtual void notify() = 0;
+    virtual ~Subject() = default;
+};
+
+// Observer Interface
 class Observer {
 public:
-    virtual void update(int value) = 0;
+    virtual void update(float temperature) = 0;
+    virtual ~Observer() = default;
 };
 
-class Subject {
+// Concrete Subject
+class WeatherStation : public Subject {
 private:
-    std::vector<Observer*> observers;
-    int state;
+    vector<Observer*> observers;
+    float temperature = 0.0;
 
 public:
-    void attach(Observer* obs) {
-        observers.push_back(obs);
+    void attach(Observer* o) override {
+        observers.push_back(o);
     }
 
-    void setState(int value) {
-        state = value;
-        notify();
+    void detach(Observer* o) override {
+        observers.erase(remove(observers.begin(), observers.end(), o), observers.end());
     }
 
-    void notify() {
-        for (Observer* obs : observers) {
-            obs->update(state);
+    void notify() override {
+        for (auto o : observers) {
+            o->update(temperature);
         }
     }
-};
 
-class ConcreteObserver : public Observer {
-private:
-    int observerState;
-public:
-    void update(int value) override {
-        observerState = value;
-        std::cout << "Observer updated with state: " << observerState << std::endl;
+    void setTemperature(float temp) {
+        temperature = temp;
+        notify();
     }
 };
+
+// Concrete Observer
+class Display : public Observer {
+private:
+    string name;
+
+public:
+    Display(const string& n) : name(n) {}
+
+    void update(float temperature) override {
+        cout << name << " display: Temperature updated to " << temperature << "°C\n";
+    }
+};
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    WeatherStation station;
+
+    Display screen1("Main");
+    Display screen2("Outdoor");
+
+    station.attach(&screen1);
+    station.attach(&screen2);
+
+    station.setTemperature(25.0);
+    station.setTemperature(30.5);
+
+    station.detach(&screen1);
+
+    station.setTemperature(28.0);
+
+    return 0;
+}
 ```
 
 ---
@@ -756,21 +820,15 @@ public:
 
 **Purpose**: Defines a family of algorithms, encapsulates each one, and makes them interchangeable.
 
+**Intent**: Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.
+
 #### ✅ Use Case:
 - Dynamic behavior changes at runtime
-
-#### 💡 Code Example:
-```cpp
-## 2. 🧵 Strategy Pattern
-
-**Intent**: Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.
 
 ### ✅ Use When:
 - You need different variants of an algorithm.
 - You want to avoid conditional statements (like `if`/`switch`) for behavior selection.
 - You want to allow runtime changes to the behavior of an object.
-
----
 
 ### 💡 Structure
 
@@ -778,10 +836,7 @@ public:
 - **Concrete Strategies**: Implement different variations of the algorithm.
 - **Context**: Maintains a reference to a Strategy object and delegates the behavior to it.
 
----
-
-### 💡 Example in C++
-
+#### 💡 Code Example:
 ```cpp
 #include <iostream>
 #include <memory>
@@ -850,40 +905,85 @@ int main() {
 
 #### 💡 Code Example:
 ```cpp
+#include <iostream>
+using namespace std;
+
+// Receiver
+class Light {
+public:
+    void on() {
+        cout << "Light is ON\n";
+    }
+
+    void off() {
+        cout << "Light is OFF\n";
+    }
+};
+
+// Command Interface
 class Command {
 public:
     virtual void execute() = 0;
+    virtual ~Command() = default;
 };
 
-class Receiver {
-public:
-    void action() {
-        std::cout << "Action performed!" << std::endl;
-    }
-};
-
-class ConcreteCommand : public Command {
+// Concrete Commands
+class LightOnCommand : public Command {
 private:
-    Receiver* receiver;
+    Light* light;
+
 public:
-    ConcreteCommand(Receiver* r) : receiver(r) {}
+    LightOnCommand(Light* l) : light(l) {}
     void execute() override {
-        receiver->action();
+        light->on();
     }
 };
 
-class Invoker {
+class LightOffCommand : public Command {
+private:
+    Light* light;
+
+public:
+    LightOffCommand(Light* l) : light(l) {}
+    void execute() override {
+        light->off();
+    }
+};
+
+// Invoker
+class RemoteControl {
 private:
     Command* command;
+
 public:
     void setCommand(Command* cmd) {
         command = cmd;
     }
 
-    void run() {
-        command->execute();
+    void pressButton() {
+        if (command)
+            command->execute();
     }
 };
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    Light livingRoomLight;
+
+    LightOnCommand onCmd(&livingRoomLight);
+    LightOffCommand offCmd(&livingRoomLight);
+
+    RemoteControl remote;
+
+    remote.setCommand(&onCmd);
+    remote.pressButton();  // Light is ON
+
+    remote.setCommand(&offCmd);
+    remote.pressButton();  // Light is OFF
+
+    return 0;
+}
 ```
 
 ---
@@ -897,39 +997,97 @@ public:
 
 #### 💡 Code Example:
 ```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Forward declaration
+class Document;
+
+// State interface
 class State {
 public:
-    virtual void handle() = 0;
+    virtual void handle(Document* doc) = 0;
+    virtual string getName() = 0;
+    virtual ~State() = default;
 };
 
-class Context {
+// Context
+class Document {
 private:
     State* state;
-public:
-    Context(State* s) : state(s) {}
 
-    void setState(State* s) {
-        state = s;
+public:
+    Document(State* initialState) : state(initialState) {}
+
+    void setState(State* newState) {
+        state = newState;
     }
 
     void request() {
-        state->handle();
+        state->handle(this);
+    }
+
+    void printState() {
+        cout << "Current state: " << state->getName() << endl;
     }
 };
 
-class ConcreteStateA : public State {
+// Concrete States
+class Draft : public State {
 public:
-    void handle() override {
-        std::cout << "Handling in State A" << std::endl;
+    void handle(Document* doc) override;
+    string getName() override {
+        return "Draft";
     }
 };
 
-class ConcreteStateB : public State {
+class Moderation : public State {
 public:
-    void handle() override {
-        std::cout << "Handling in State B" << std::endl;
+    void handle(Document* doc) override;
+    string getName() override {
+        return "Moderation";
     }
 };
+
+class Published : public State {
+public:
+    void handle(Document* doc) override {
+        cout << "Document is already published.\n";
+    }
+    string getName() override {
+        return "Published";
+    }
+};
+
+// State transitions
+void Draft::handle(Document* doc) {
+    cout << "Submitting draft for moderation...\n";
+    doc->setState(new Moderation());
+    delete this;  // Clean up
+}
+
+void Moderation::handle(Document* doc) {
+    cout << "Approving document...\n";
+    doc->setState(new Published());
+    delete this;  // Clean up
+}
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    Document doc(new Draft());
+    doc.printState();
+
+    doc.request();  // Moves to Moderation
+    doc.printState();
+
+    doc.request();  // Moves to Published
+    doc.printState();
+
+    doc.request();  // Already published
+    return 0;
+}
 ```
 
 ---
@@ -945,41 +1103,82 @@ public:
 ```cpp
 #include <iostream>
 #include <vector>
+#include <string>
+using namespace std;
 
+// Iterator Interface
 class Iterator {
 public:
     virtual bool hasNext() = 0;
-    virtual int next() = 0;
+    virtual string next() = 0;
+    virtual ~Iterator() = default;
 };
 
+// Aggregate Interface
 class Aggregate {
-private:
-    std::vector<int> items;
 public:
-    void add(int value) {
-        items.push_back(value);
-    }
-
-    std::vector<int> getItems() const {
-        return items;
-    }
+    virtual Iterator* createIterator() = 0;
+    virtual ~Aggregate() = default;
 };
 
-class ConcreteIterator : public Iterator {
+// Concrete Aggregate
+class MyCollection : public Aggregate {
 private:
-    const std::vector<int>& items;
-    size_t index;
-public:
-    ConcreteIterator(const std::vector<int>& items) : items(items), index(0) {}
+    vector<string> items;
 
-    bool hasNext() override {
-        return index < items.size();
+public:
+    void add(const string& item) {
+        items.push_back(item);
     }
 
-    int next() override {
-        return items[index++];
+    string get(int index) const {
+        return items[index];
+    }
+
+    int size() const {
+        return items.size();
+    }
+
+    class MyIterator : public Iterator {
+    private:
+        const MyCollection& collection;
+        int index = 0;
+
+    public:
+        MyIterator(const MyCollection& coll) : collection(coll) {}
+
+        bool hasNext() override {
+            return index < collection.size();
+        }
+
+        string next() override {
+            return collection.get(index++);
+        }
+    };
+
+    Iterator* createIterator() override {
+        return new MyIterator(*this);
     }
 };
+```
+#### 🧪 Usage:
+```cpp
+int main() {
+    MyCollection collection;
+    collection.add("A");
+    collection.add("B");
+    collection.add("C");
+
+    Iterator* it = collection.createIterator();
+
+    while (it->hasNext()) {
+        cout << it->next() << endl;
+    }
+
+    delete it; // Cleanup
+
+    return 0;
+}
 ```
 
 ---
