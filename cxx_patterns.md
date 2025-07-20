@@ -7,34 +7,34 @@
 
 1. 🔁 [Creational Patterns](#creational-patterns)
 
-    - [Singleton](#singleton)
-    - [Factory Method](#factory-method)
-    - [Abstract Factory](#abstract-factory)
-    - [Builder](#builder)
-    - [Prototype](#prototype)
+    - [1.1 Singleton](#singleton)
+    - [1.2 Factory Method](#factory-method)
+    - [1.3 Abstract Factory](#abstract-factory)
+    - [1.4 Builder](#builder)
+    - [1.5 Prototype](#prototype)
 
 2. 🔄 [Structural Patterns](#structural-patterns)
 
-    - [Adapter](#adapter)
-    - [Bridge](#bridge)
-    - [Composite](#composite)
-    - [Decorator](#decorator)
-    - [Facade](#facade)
-    - [Flyweight](#flyweight)
-    - [Proxy](#proxy)
+    - [2.1 Adapter](#adapter)
+    - [2.2 Bridge](#bridge)
+    - [2.3 Composite](#composite)
+    - [2.4 Decorator](#decorator)
+    - [2.5 Facade](#facade)
+    - [2.6 Flyweight](#flyweight)
+    - [2.7 Proxy](#proxy)
 
 3. 🔁 [Behavioral Patterns](#begavioral-patterns)
 
-    * [Observer](#observer)
-    * [Strategy](#strategy)
-    * [Command](#command)
-    * [State](#state)
-    * [Iterator](#iterator)
-    * [Mediator](#mediator)
-    * [Memento](#memento)
-    * [Visitor](#visitor)
-    * [Chain of Responsibility](#chain-of-responsibility)
-    * [Template Method](#template-method)
+    * [3.1 Observer](#observer)
+    * [3.2 Strategy](#strategy)
+    * [3.3 Command](#command)
+    * [3.4 State](#state)
+    * [3.5 Iterator](#iterator)
+    * [3.6 Mediator](#mediator)
+    * [3.7 Memento](#memento)
+    * [3.8 Visitor](#visitor)
+    * [3.9 Chain of Responsibility](#chain-of-responsibility)
+    * [3.10 Template Method](#template-method)
 
 ---
 
@@ -42,11 +42,11 @@
 
 Creational patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation.
 
-- [Singleton](#singleton)
-- [Factory Method](#factory-method)
-- [Abstract Factory](#abstract-factory)
-- [Builder](#builder)
-- [Prototype](#prototype)
+- [1. Singleton](#singleton)
+- [2. Factory Method](#factory-method)
+- [3. Abstract Factory](#abstract-factory)
+- [4. Builder](#builder)
+- [5. Prototype](#prototype)
 
 ---
 
@@ -471,13 +471,13 @@ int main() {
 ---
 
 ## <a id="structural-patterns">Structural Patterns</a>
-- [Adapter](#adapter)
-- [Bridge](#bridge)
-- [Composite](#composite)
-- [Decorator](#decorator)
-- [Facade](#facade)
-- [Flyweight](#flyweight)
-- [Proxy](#proxy)
+- [1. Adapter](#adapter)
+- [2. Bridge](#bridge)
+- [3. Composite](#composite)
+- [4. Decorator](#decorator)
+- [5. Facade](#facade)
+- [6. Flyweight](#flyweight)
+- [7. Proxy](#proxy)
 
 ---
 
@@ -827,16 +827,16 @@ int main() {
 
 Behavioral patterns are concerned with algorithms and the assignment of responsibilities between objects.
 
-- [Observer](#observer)
-- [Strategy](#strategy)
-- [Command](#command)
-- [State](#state)
-- [Iterator](#iterator)
-- [Mediator](#mediator)
-- [Memento](#memento)
-- [Visitor](#visitor)
-- [Chain of Responsibility](#chain-of-responsibility)
-- [Template Method](#template-method)
+- [1. Observer](#observer)
+- [2. Strategy](#strategy)
+- [3. Command](#command)
+- [4. State](#state)
+- [5. Iterator](#iterator)
+- [6. Mediator](#mediator)
+- [7. Memento](#memento)
+- [8. Visitor](#visitor)
+- [9. Chain of Responsibility](#chain-of-responsibility)
+- [10. Template Method](#template-method)
 
 ---
 
