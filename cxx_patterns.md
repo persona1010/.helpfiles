@@ -825,12 +825,12 @@ int main() {
 #### ✅ Use Case:
 - Dynamic behavior changes at runtime
 
-### ✅ Use When:
+#### ✅ Use When:
 - You need different variants of an algorithm.
 - You want to avoid conditional statements (like `if`/`switch`) for behavior selection.
 - You want to allow runtime changes to the behavior of an object.
 
-### 💡 Structure
+#### 💡 Structure
 
 - **Strategy (Interface)**: Declares an interface common to all supported algorithms.
 - **Concrete Strategies**: Implement different variations of the algorithm.
