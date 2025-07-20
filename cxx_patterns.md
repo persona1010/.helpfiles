@@ -557,6 +557,12 @@ public:
 - When you want to keep a registry of prototype objects.
 - In graphical applications for duplicating objects.
 
+#### ✅ Benefits
+- Cloning can be more efficient than creating objects from scratch.
+- Allows dynamic configuration of new objects at runtime.
+- Avoids subclasses proliferation.
+
+
 #### 💡 Code Example:
 ```cpp
 #include <iostream>
