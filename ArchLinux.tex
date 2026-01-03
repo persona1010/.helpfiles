@@ -373,8 +373,17 @@ objects:
     route, r - Отображение, изменение таблицы маршрутизации.
     neigh, n - Отображение, управление соседними объектами (таблица ARP)
 
+ip link set ${INTERFACE} down - отключает сетевой интерфейс
 /etc/services - файл с переводами значений хорошо известных портов в имена.
 nm-online - Сообщает о том, функционирует сеть или нет.
 nmcli - Cli для NetworkManager.
 /etc/resolv.conf - Файл конфигурации для серверов DNS.
 
+nmcli radio wifi off - выключение wifi модуля
+nmcli device wifi list
+nmcli device wifi connect ${SSID} password ${PASSWORD} hidden yes
+
+% -----------------------------------------------------------------------------
+% HDD 
+% -----------------------------------------------------------------------------
+df -h -info about filesistem.

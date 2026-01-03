@@ -3,3 +3,6 @@ git clone https://aur.archlinux.org/yay.git
 makepkg -si
 
 yay -Suy --aur - обновление всех пакетов установленных с AUR.
+
+pacman -Qm - packages instaled by aur (not packman).
+yay -Ps - yay info
