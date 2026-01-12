@@ -384,6 +384,28 @@ nmcli device wifi list
 nmcli device wifi connect ${SSID} password ${PASSWORD} hidden yes
 
 % -----------------------------------------------------------------------------
+% Bluetooth 
+% -----------------------------------------------------------------------------
+
+sudo pacman -S bluez bluez-utils
+% GUI
+sudo pacman -S blueman
+sudo systemctl enable bluetooth
+sudo systemctl start bluetooth
+% some commands
+bluetoothctl
+    power on
+    agent on
+    default-agent
+    scan on
+
+% if bluetooth is blocked:
+rfkill list
+
+% if soft blocked:
+# sudo rfkill unblock bluetooth
+
+% -----------------------------------------------------------------------------
 % HDD 
 % -----------------------------------------------------------------------------
 df -h -info about filesistem.
